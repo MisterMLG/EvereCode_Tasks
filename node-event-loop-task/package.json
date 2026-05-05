@@ -1,0 +1,16 @@
+{
+  "name": "node-event-loop-task",
+  "version": "1.0.0",
+  "description": "Test task for Node.js modules and Event Loop",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "event-loop",
+    "scheduler"
+  ],
+  "author": "",
+  "license": "ISC"
+}
