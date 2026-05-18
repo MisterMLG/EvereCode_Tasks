@@ -1,19 +1,26 @@
+const {
+    InvalidLoggerError,
+    InvalidTaskNameError,
+    InvalidTaskIntervalError,
+    InvalidTaskHandlerError
+} = require('./errors');
+
 function createScheduler(log) {
     if (typeof log !== 'function') {
-        throw new Error('Logger must be a function');
+        throw new InvalidLoggerError();
     }
 
     return function scheduleTask(name, interval, task) {
         if (typeof name !== 'string' || name.trim().length === 0) {
-            throw new Error('Task name must be a non-empty string');
+            throw new InvalidTaskNameError();
         }
 
         if (!Number.isInteger(interval) || interval <= 0) {
-            throw new Error('Interval must be a positive integer');
+            throw new InvalidTaskIntervalError();
         }
 
         if (typeof task !== 'function') {
-            throw new Error('Task must be a function');
+            throw new InvalidTaskHandlerError();
         }
 
         log(`task "${name}" registered with interval ${interval} ms`);
