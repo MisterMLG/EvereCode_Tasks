@@ -3,10 +3,10 @@ const {
     InvalidTaskNameError,
     InvalidTaskIntervalError,
     InvalidTaskHandlerError
-} = require('./errors');
+} = require('../errors/errors');
 
-function createScheduler(log) {
-    if (typeof log !== 'function') {
+function createScheduler(logger) {
+    if (typeof logger.info !== 'function') {
         throw new InvalidLoggerError();
     }
 
@@ -23,10 +23,10 @@ function createScheduler(log) {
             throw new InvalidTaskHandlerError();
         }
 
-        log(`task "${name}" registered with interval ${interval} ms`);
+        logger.info(`task "${name}" registered with interval ${interval} ms`);
 
         return setInterval(() => {
-            log(`task "${name}" running`);
+            logger.info(`task "${name}" running`);
             task();
         }, interval);
     };
