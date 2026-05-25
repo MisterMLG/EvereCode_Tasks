@@ -13,25 +13,42 @@ PS C:\Users\pivov\WebstormProjects\EvereCode_Tasks\event-loop-scheduler> npm sta
 
 Tests
 
-PS C:\Users\pivov\WebstormProjects\EvereCode_Tasks\event-loop-scheduler> npm run test:watch                                                                                         
-
+PS C:\Users\pivov\WebstormProjects\EvereCode_Tasks\event-loop-scheduler> npm run test:watch
 
 > event-loop-scheduler@1.0.0 test:watch
+> 
 > jest --watch
->No tests found related to files changed since last commit.
->Press `a` to run all tests, or run Jest with `--watchAll`.
+> 
+ >PASS  tests/scheduler.test.js
+> 
+  >scheduler
+> 
+   > √ throws InvalidTaskNameError when task name is empty (17 ms)
+
+>Test Suites: 1 passed, 1 total
+>
+>Tests:       1 passed, 1 total
+>
+>Snapshots:   0 total
+>
+>Time:        1.02 s
+>
+>Ran all test suites related to changed files.
 
 >Watch Usage
- › Press a to run all tests.
- › Press f to run only failed tests.
- › Press p to filter by a filename regex pattern.
- › Press t to filter by a test name regex pattern.
- › Press q to quit watch mode.
- › Press Enter to trigger a test run.
->No tests found related to files changed since last commit.
->Press `a` to run all tests, or run Jest with `--watchAll`.
+>
+ > Press a to run all tests.
+>
+ > Press f to run only failed tests.
+>
+ > Press p to filter by a filename regex pattern.
+>
+ > Press t to filter by a test name regex pattern.
+>
+ > Press q to quit watch mode.
+>
+ > Press Enter to trigger a test run.
 
->Watch Usage: Press w to show more.
 
 
 Starting with module 2 I will create a new branch and individual readme file for each module
