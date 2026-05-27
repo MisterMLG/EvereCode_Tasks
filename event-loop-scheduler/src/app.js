@@ -1,13 +1,14 @@
 const config = require('./config/config');
 const createLogger = require('./logger/logger');
 const createScheduler = require('./scheduler/scheduler');
-const app = require('./server');
+const createServer = require('./server');
 
 const logger = createLogger(config.appName, {
     level: config.logLevel
 });
 
 const scheduleTask = createScheduler(logger);
+const app = createServer({ authToken: config.authToken });
 
 logger.info('application started');
 

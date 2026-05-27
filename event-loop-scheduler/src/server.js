@@ -1,9 +1,15 @@
 const express = require('express');
+const createAuthMiddleware = require('./middleware/auth');
 
-const app = express();
+function createServer({ authToken }) {
+    const app = express();
+    const authMiddleware = createAuthMiddleware(authToken);
 
-app.get('/status', (req, res) => {
-    res.send('ok');
-});
+    app.get('/status', authMiddleware, (req, res) => {
+        res.send('ok');
+    });
 
-module.exports = app;
+    return app;
+}
+
+module.exports = createServer;
