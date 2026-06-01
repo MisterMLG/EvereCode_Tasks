@@ -1,15 +1,29 @@
 const express = require('express');
 const createAuthMiddleware = require('./middleware/auth');
-const createCurrencyStore = require('./store/currencyStore');
+const { createDatabase } = require('./db/database');
+const { initializeDatabase } = require('./db/schema');
+const createCurrencyRepository = require('./repositories/currencyRepository');
 const createCurrenciesRouter = require('./routes/currencies');
 const createPriceRouter = require('./routes/price');
 const errorHandler = require('./middleware/errorHandler');
 const openApiSpec = require('./openapi/openapi');
 
-function createServer({ authToken, fetchImpl = global.fetch }) {
+function createServer({
+    authToken,
+    fetchImpl = global.fetch,
+    databasePath = ':memory:',
+    currencyRepository
+}) {
     const app = express();
     const authMiddleware = createAuthMiddleware(authToken);
-    const currencyStore = createCurrencyStore();
+    const database = currencyRepository ? null : createDatabase(databasePath);
+
+    if (database) {
+        initializeDatabase(database);
+        app.locals.database = database;
+    }
+
+    const repository = currencyRepository || createCurrencyRepository(database);
 
     app.use(express.json());
 
@@ -21,8 +35,8 @@ function createServer({ authToken, fetchImpl = global.fetch }) {
         res.send('ok');
     });
 
-    app.use('/currencies', authMiddleware, createCurrenciesRouter(currencyStore));
-    app.use('/price', authMiddleware, createPriceRouter({ currencyStore, fetchImpl }));
+    app.use('/currencies', authMiddleware, createCurrenciesRouter(repository));
+    app.use('/price', authMiddleware, createPriceRouter({ currencyRepository: repository, fetchImpl }));
     app.use(errorHandler);
 
     return app;

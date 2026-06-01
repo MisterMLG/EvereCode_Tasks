@@ -8,7 +8,10 @@ const logger = createLogger(config.appName, {
 });
 
 const scheduleTask = createScheduler(logger);
-const app = createServer({ authToken: config.authToken });
+const app = createServer({
+    authToken: config.authToken,
+    databasePath: config.databasePath
+});
 
 logger.info('application started');
 

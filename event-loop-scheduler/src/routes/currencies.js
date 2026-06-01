@@ -33,11 +33,11 @@ function parseCurrency(body) {
     };
 }
 
-function createCurrenciesRouter(currencyStore) {
+function createCurrenciesRouter(currencyRepository) {
     const router = express.Router();
 
     router.get('/', (req, res) => {
-        res.json(currencyStore.list());
+        res.json(currencyRepository.list());
     });
 
     router.post('/', (req, res) => {
@@ -47,7 +47,7 @@ function createCurrenciesRouter(currencyStore) {
             return res.status(400).json({ error: result.error });
         }
 
-        const createdCurrency = currencyStore.create(result.currency);
+        const createdCurrency = currencyRepository.create(result.currency);
 
         if (!createdCurrency) {
             return res.status(409).json({ error: 'Currency already exists' });
@@ -57,7 +57,7 @@ function createCurrenciesRouter(currencyStore) {
     });
 
     router.get('/:ticker', (req, res) => {
-        const currency = currencyStore.get(req.params.ticker);
+        const currency = currencyRepository.get(req.params.ticker);
 
         if (!currency) {
             return res.status(404).json({ error: 'Currency not found' });
@@ -79,7 +79,7 @@ function createCurrenciesRouter(currencyStore) {
             return res.status(400).json({ error: 'Ticker in URL and body must match' });
         }
 
-        const updatedCurrency = currencyStore.update(ticker, result.currency);
+        const updatedCurrency = currencyRepository.update(ticker, result.currency);
 
         if (!updatedCurrency) {
             return res.status(404).json({ error: 'Currency not found' });
@@ -89,7 +89,7 @@ function createCurrenciesRouter(currencyStore) {
     });
 
     router.delete('/:ticker', (req, res) => {
-        const deleted = currencyStore.remove(req.params.ticker);
+        const deleted = currencyRepository.remove(req.params.ticker);
 
         if (!deleted) {
             return res.status(404).json({ error: 'Currency not found' });

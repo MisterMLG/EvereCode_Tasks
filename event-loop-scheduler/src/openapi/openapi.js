@@ -191,7 +191,7 @@ const openApiSpec = {
                         }
                     },
                     400: { description: 'currency query parameter is required' },
-                    404: { description: 'Currency not found in memory store' },
+                    404: { description: 'Currency not found in database' },
                     502: { description: 'Binance API error' }
                 }
             }

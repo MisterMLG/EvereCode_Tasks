@@ -2,7 +2,7 @@ const express = require('express');
 
 const BINANCE_PRICES_URL = 'https://api.binance.com/api/v3/ticker/price';
 
-function createPriceRouter({ currencyStore, fetchImpl = global.fetch }) {
+function createPriceRouter({ currencyRepository, fetchImpl = global.fetch }) {
     const router = express.Router();
 
     if (!fetchImpl) {
@@ -18,7 +18,7 @@ function createPriceRouter({ currencyStore, fetchImpl = global.fetch }) {
             return res.status(400).json({ error: 'currency query parameter is required' });
         }
 
-        if (!currencyStore.has(currency)) {
+        if (!currencyRepository.has(currency)) {
             return res.status(404).json({ error: 'Currency not found' });
         }
 

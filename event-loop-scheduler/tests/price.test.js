@@ -36,7 +36,7 @@ describe('GET /price', () => {
         expect(fetchImpl).toHaveBeenCalledWith('https://api.binance.com/api/v3/ticker/price');
     });
 
-    test('returns 404 when currency does not exist in store', async () => {
+    test('returns 404 when currency does not exist in database', async () => {
         const fetchImpl = jest.fn();
         const app = createServer({ authToken: validToken, fetchImpl });
 
