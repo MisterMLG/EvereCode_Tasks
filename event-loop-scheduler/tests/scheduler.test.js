@@ -1,13 +1,15 @@
 const createScheduler = require('../src/scheduler/scheduler');
-const { InvalidTaskNameError } = require('../src/errors/errors');
+const { SchedulerValidationError } = require('../src/errors/errors');
 
 describe('scheduler', () => {
-    test('throws InvalidTaskNameError when task name is empty', () => {
+    test('throws SchedulerValidationError when task name is empty', () => {
         const logger = {
             info: jest.fn()
         };
         const scheduleTask = createScheduler(logger);
 
-        expect(() => scheduleTask('', 1000, jest.fn())).toThrow(InvalidTaskNameError);
+        expect(() => scheduleTask('', 1000, jest.fn())).toThrow(SchedulerValidationError);
+        expect(() => scheduleTask('', 1000, jest.fn()))
+            .toThrow('Task name must be a non-empty string');
     });
 });

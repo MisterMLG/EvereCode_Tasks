@@ -9,34 +9,13 @@ class SchedulerError extends Error {
     }
 }
 
-class InvalidTaskNameError extends SchedulerError {
-    constructor() {
-        super('Task name must be a non-empty string');
-    }
-}
-
-class InvalidTaskIntervalError extends SchedulerError {
-    constructor() {
-        super('Interval must be a positive integer');
-    }
-}
-
-class InvalidTaskHandlerError extends SchedulerError {
-    constructor() {
-        super('Task must be a function');
-    }
-}
-
-class InvalidLoggerError extends SchedulerError {
-    constructor() {
-        super('Logger must be a function');
+class SchedulerValidationError extends SchedulerError {
+    constructor(message) {
+        super(message);
     }
 }
 
 module.exports = {
     SchedulerError,
-    InvalidTaskNameError,
-    InvalidTaskIntervalError,
-    InvalidTaskHandlerError,
-    InvalidLoggerError
+    SchedulerValidationError
 };
