@@ -3,6 +3,7 @@ const createAuthMiddleware = require('./middleware/auth');
 const { createDatabase } = require('./db/database');
 const { initializeDatabase } = require('./db/schema');
 const createCurrencyRepository = require('./repositories/currencyRepository');
+const createPriceRepository = require('./repositories/priceRepository');
 const createCurrenciesRouter = require('./routes/currencies');
 const createPriceRouter = require('./routes/price');
 const errorHandler = require('./middleware/errorHandler');
@@ -10,20 +11,26 @@ const openApiSpec = require('./openapi/openapi');
 
 function createServer({
     authToken,
-    fetchImpl = global.fetch,
     databasePath = ':memory:',
-    currencyRepository
+    currencyRepository,
+    priceRepository
 }) {
     const app = express();
     const authMiddleware = createAuthMiddleware(authToken);
-    const database = currencyRepository ? null : createDatabase(databasePath);
+    const database = currencyRepository && priceRepository
+        ? null
+        : createDatabase(databasePath);
 
     if (database) {
         initializeDatabase(database);
         app.locals.database = database;
     }
 
-    const repository = currencyRepository || createCurrencyRepository(database);
+    const currencies = currencyRepository || createCurrencyRepository(database);
+    const prices = priceRepository || createPriceRepository(database);
+
+    app.locals.currencyRepository = currencies;
+    app.locals.priceRepository = prices;
 
     app.use(express.json());
 
@@ -35,8 +42,11 @@ function createServer({
         res.send('ok');
     });
 
-    app.use('/currencies', authMiddleware, createCurrenciesRouter(repository));
-    app.use('/price', authMiddleware, createPriceRouter({ currencyRepository: repository, fetchImpl }));
+    app.use('/currencies', authMiddleware, createCurrenciesRouter(currencies));
+    app.use('/price', authMiddleware, createPriceRouter({
+        currencyRepository: currencies,
+        priceRepository: prices
+    }));
     app.use(errorHandler);
 
     return app;

@@ -8,8 +8,8 @@ const config = {
     authToken: process.env.AUTH_TOKEN,
     databasePath: process.env.DATABASE_PATH || path.join(__dirname, '..', '..', 'data', 'app.sqlite'),
     scheduler: {
-        taskName: 'status-task',
-        interval: 10000
+        taskName: 'price-update',
+        interval: 60_000
     }
 };
 

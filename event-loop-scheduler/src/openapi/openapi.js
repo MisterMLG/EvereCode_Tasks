@@ -171,7 +171,7 @@ const openApiSpec = {
         },
         '/price': {
             get: {
-                summary: 'Get Binance prices containing currency ticker',
+                summary: 'Get saved prices containing currency ticker',
                 security: [{ bearerAuth: [] }],
                 parameters: [
                     {
@@ -183,7 +183,7 @@ const openApiSpec = {
                 ],
                 responses: {
                     200: {
-                        description: 'Filtered Binance prices',
+                        description: 'Prices saved by the background Binance updater',
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/PriceResponse' }
@@ -191,8 +191,7 @@ const openApiSpec = {
                         }
                     },
                     400: { description: 'currency query parameter is required' },
-                    404: { description: 'Currency not found in database' },
-                    502: { description: 'Binance API error' }
+                    404: { description: 'Currency not found in database' }
                 }
             }
         }
