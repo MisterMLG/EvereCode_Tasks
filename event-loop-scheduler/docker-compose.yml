@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    image: crypto-tracker
+    init: true
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      AUTH_TOKEN: ${AUTH_TOKEN:?set AUTH_TOKEN in your .env file}
+      DATABASE_PATH: /app/data/app.sqlite
+      HTTP_TIMEOUT_MS: ${HTTP_TIMEOUT_MS:-5000}
+      HTTP_RETRIES: ${HTTP_RETRIES:-2}
+      HTTP_RETRY_DELAY_MS: ${HTTP_RETRY_DELAY_MS:-300}
+      BINANCE_BASE_URL: ${BINANCE_BASE_URL:-https://api.binance.com}
+      BLOCKSTREAM_BASE_URL: ${BLOCKSTREAM_BASE_URL:-https://blockstream.info/api}
+    volumes:
+      - app-data:/app/data
+    restart: unless-stopped
+    stop_grace_period: 15s
+
+volumes:
+  app-data:
