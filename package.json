@@ -1,7 +1,7 @@
 {
   "name": "event-loop-scheduler",
   "version": "1.0.0",
-  "description": "Backend service for tracking and aggregating crypto rates (Binance + Blockstream)",
+  "description": "Backend service for tracking and aggregating crypto rates (CoinGecko + Blockstream)",
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -17,7 +17,7 @@
     "nodejs",
     "typescript",
     "crypto",
-    "binance",
+    "coingecko",
     "scheduler"
   ],
   "author": "",

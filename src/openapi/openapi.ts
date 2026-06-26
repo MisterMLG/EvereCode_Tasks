@@ -18,7 +18,7 @@ export const openApiSpec = {
         title: 'Crypto Tracker API',
         version: '1.0.0',
         description:
-            'REST API for tracking crypto currencies (Binance) and Bitcoin addresses (Blockstream).',
+            'REST API for tracking crypto currencies (CoinGecko) and Bitcoin addresses (Blockstream).',
     },
     components: {
         securitySchemes: {
@@ -39,7 +39,7 @@ export const openApiSpec = {
             Price: {
                 type: 'object',
                 properties: {
-                    symbol: { type: 'string', example: 'BTCUSDT' },
+                    symbol: { type: 'string', example: 'BTCUSD' },
                     price: { type: 'string', example: '65000.00000000' },
                 },
             },
@@ -56,7 +56,7 @@ export const openApiSpec = {
             PriceHistoryEntry: {
                 type: 'object',
                 properties: {
-                    symbol: { type: 'string', example: 'BTCUSDT' },
+                    symbol: { type: 'string', example: 'BTCUSD' },
                     price: { type: 'string', example: '65000.00000000' },
                     recordedAt: { type: 'string', example: '2026-06-14 17:00:00' },
                 },
@@ -65,7 +65,7 @@ export const openApiSpec = {
                 type: 'object',
                 properties: {
                     currency: { type: 'string', example: 'BTC' },
-                    symbol: { type: 'string', nullable: true, example: 'BTCUSDT' },
+                    symbol: { type: 'string', nullable: true, example: 'BTCUSD' },
                     history: {
                         type: 'array',
                         items: { $ref: '#/components/schemas/PriceHistoryEntry' },
@@ -216,7 +216,7 @@ export const openApiSpec = {
                 ],
                 responses: {
                     200: {
-                        description: 'Prices saved by the background Binance updater',
+                        description: 'Prices saved by the background CoinGecko updater',
                         content: {
                             'application/json': {
                                 schema: { $ref: '#/components/schemas/PriceResponse' },
@@ -238,7 +238,7 @@ export const openApiSpec = {
                         name: 'symbol',
                         in: 'query',
                         required: false,
-                        schema: { type: 'string', example: 'BTCUSDT' },
+                        schema: { type: 'string', example: 'BTCUSD' },
                     },
                     {
                         name: 'limit',

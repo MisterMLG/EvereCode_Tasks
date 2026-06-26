@@ -7,7 +7,7 @@ import { createCurrencyRepository } from './repositories/currencyRepository';
 import { createPriceRepository } from './repositories/priceRepository';
 import { createAddressRepository } from './repositories/addressRepository';
 import { createHttpClient } from './services/httpClient';
-import { createBinanceClient } from './services/binanceClient';
+import { createCoingeckoClient } from './services/coingeckoClient';
 import { createBlockchainClient } from './services/blockchainClient';
 import { createPriceUpdater } from './services/priceUpdater';
 import { createServer } from './server';
@@ -27,7 +27,7 @@ const httpClient = createHttpClient({
     retries: config.http.retries,
     retryDelayMs: config.http.retryDelayMs,
 });
-const binanceClient = createBinanceClient(httpClient, config.binance.baseUrl);
+const coingeckoClient = createCoingeckoClient(httpClient, config.coingecko.baseUrl);
 const blockchainClient = createBlockchainClient(httpClient, config.blockchain.baseUrl);
 
 const app = createServer({
@@ -35,7 +35,7 @@ const app = createServer({
     currencyRepository,
     priceRepository,
     addressRepository,
-    binanceClient,
+    coingeckoClient,
     blockchainClient,
 });
 
@@ -43,7 +43,7 @@ const scheduleTask = createScheduler(logger);
 const updatePrices = createPriceUpdater({
     currencyRepository,
     priceRepository,
-    binanceClient,
+    coingeckoClient,
 });
 
 let currentUpdate: Promise<void> = Promise.resolve();

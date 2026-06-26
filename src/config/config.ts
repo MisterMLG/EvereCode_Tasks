@@ -13,7 +13,7 @@ export interface AppConfig {
         retries: number;
         retryDelayMs: number;
     };
-    binance: {
+    coingecko: {
         baseUrl: string;
     };
     blockchain: {
@@ -37,8 +37,8 @@ const config: AppConfig = {
         retries: Number(process.env.HTTP_RETRIES) || 2,
         retryDelayMs: Number(process.env.HTTP_RETRY_DELAY_MS) || 300,
     },
-    binance: {
-        baseUrl: process.env.BINANCE_BASE_URL || 'https://api.binance.com',
+    coingecko: {
+        baseUrl: process.env.COINGECKO_BASE_URL || 'https://api.coingecko.com',
     },
     blockchain: {
         baseUrl: process.env.BLOCKSTREAM_BASE_URL || 'https://blockstream.info/api',

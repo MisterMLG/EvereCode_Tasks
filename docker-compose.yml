@@ -12,7 +12,7 @@ services:
       HTTP_TIMEOUT_MS: ${HTTP_TIMEOUT_MS:-5000}
       HTTP_RETRIES: ${HTTP_RETRIES:-2}
       HTTP_RETRY_DELAY_MS: ${HTTP_RETRY_DELAY_MS:-300}
-      BINANCE_BASE_URL: ${BINANCE_BASE_URL:-https://api.binance.com}
+      COINGECKO_BASE_URL: ${COINGECKO_BASE_URL:-https://api.coingecko.com}
       BLOCKSTREAM_BASE_URL: ${BLOCKSTREAM_BASE_URL:-https://blockstream.info/api}
     volumes:
       - app-data:/app/data

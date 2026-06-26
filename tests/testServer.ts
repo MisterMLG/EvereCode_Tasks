@@ -5,7 +5,7 @@ import { createCurrencyRepository, type CurrencyRepository } from '../src/reposi
 import { createPriceRepository, type PriceRepository } from '../src/repositories/priceRepository';
 import { createAddressRepository, type AddressRepository } from '../src/repositories/addressRepository';
 import { createServer } from '../src/server';
-import type { BinanceClient } from '../src/services/binanceClient';
+import type { CoingeckoClient } from '../src/services/coingeckoClient';
 import type { BlockchainClient } from '../src/services/blockchainClient';
 
 export const VALID_TOKEN = 'a'.repeat(64);
@@ -26,7 +26,7 @@ export interface TestContext {
 }
 
 export interface TestOverrides {
-    binanceClient?: BinanceClient;
+    coingeckoClient?: CoingeckoClient;
     blockchainClient?: BlockchainClient;
 }
 
@@ -43,7 +43,7 @@ export function buildServer(overrides: TestOverrides = {}): TestContext {
         currencyRepository,
         priceRepository,
         addressRepository,
-        binanceClient: overrides.binanceClient,
+        coingeckoClient: overrides.coingeckoClient,
         blockchainClient: overrides.blockchainClient,
     });
 

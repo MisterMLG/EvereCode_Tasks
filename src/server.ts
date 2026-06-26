@@ -8,7 +8,7 @@ import { createCurrencyRepository, type CurrencyRepository } from './repositorie
 import { createPriceRepository, type PriceRepository } from './repositories/priceRepository';
 import { createAddressRepository, type AddressRepository } from './repositories/addressRepository';
 import { createHttpClient } from './services/httpClient';
-import { createBinanceClient, type BinanceClient } from './services/binanceClient';
+import { createCoingeckoClient, type CoingeckoClient } from './services/coingeckoClient';
 import { createBlockchainClient, type BlockchainClient } from './services/blockchainClient';
 import { createCurrenciesRouter } from './routes/currencies';
 import { createPriceRouter } from './routes/price';
@@ -22,7 +22,7 @@ export interface CreateServerOptions {
     currencyRepository?: CurrencyRepository;
     priceRepository?: PriceRepository;
     addressRepository?: AddressRepository;
-    binanceClient?: BinanceClient;
+    coingeckoClient?: CoingeckoClient;
     blockchainClient?: BlockchainClient;
 }
 
@@ -33,7 +33,7 @@ export function createServer(options: CreateServerOptions): Express {
         currencyRepository,
         priceRepository,
         addressRepository,
-        binanceClient,
+        coingeckoClient,
         blockchainClient,
     } = options;
 
@@ -53,7 +53,7 @@ export function createServer(options: CreateServerOptions): Express {
         retries: config.http.retries,
         retryDelayMs: config.http.retryDelayMs,
     });
-    const binance = binanceClient ?? createBinanceClient(defaultHttpClient, config.binance.baseUrl);
+    const coingecko = coingeckoClient ?? createCoingeckoClient(defaultHttpClient, config.coingecko.baseUrl);
     const blockchain =
         blockchainClient ?? createBlockchainClient(defaultHttpClient, config.blockchain.baseUrl);
 
@@ -66,7 +66,7 @@ export function createServer(options: CreateServerOptions): Express {
     app.locals.currencyRepository = currencies;
     app.locals.priceRepository = prices;
     app.locals.addressRepository = addresses;
-    app.locals.binanceClient = binance;
+    app.locals.coingeckoClient = coingecko;
     app.locals.blockchainClient = blockchain;
 
     app.use(express.json());

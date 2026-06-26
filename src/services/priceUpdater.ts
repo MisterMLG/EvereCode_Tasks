@@ -1,6 +1,6 @@
 import type { CurrencyRepository } from '../repositories/currencyRepository';
 import type { PriceRepository } from '../repositories/priceRepository';
-import type { BinanceClient } from './binanceClient';
+import type { CoingeckoClient } from './coingeckoClient';
 
 export interface PriceUpdateResult {
     currencies: number;
@@ -10,7 +10,7 @@ export interface PriceUpdateResult {
 export interface PriceUpdaterDeps {
     currencyRepository: CurrencyRepository;
     priceRepository: PriceRepository;
-    binanceClient: BinanceClient;
+    coingeckoClient: CoingeckoClient;
 }
 
 export type PriceUpdater = () => Promise<PriceUpdateResult>;
@@ -18,7 +18,7 @@ export type PriceUpdater = () => Promise<PriceUpdateResult>;
 export function createPriceUpdater({
     currencyRepository,
     priceRepository,
-    binanceClient,
+    coingeckoClient,
 }: PriceUpdaterDeps): PriceUpdater {
     let runningUpdate: Promise<PriceUpdateResult> | null = null;
 
@@ -31,12 +31,12 @@ export function createPriceUpdater({
             return { currencies: 0, prices: 0 };
         }
 
-        const binancePrices = await binanceClient.getAllPrices();
+        const allPrices = await coingeckoClient.getAllPrices();
 
         const currencies = currencyRepository.list();
         const priceGroups = currencies.map(({ ticker }) => ({
             currency: ticker,
-            prices: binancePrices.filter(({ symbol }) => symbol.includes(ticker)),
+            prices: allPrices.filter(({ symbol }) => symbol.includes(ticker)),
         }));
         const savedPriceCount = priceRepository.replaceAll(priceGroups);
         priceRepository.appendHistory(priceGroups);
