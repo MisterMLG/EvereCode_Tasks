@@ -1,54 +1,35 @@
-# EvereCode_Tasks
+# Crypto Tracker API
 
-Default start
+REST API сервис для мониторинга курсов криптовалют с фоновой синхронизацией данных Binance. Стек: Node.js, Express, SQLite.
 
-PS C:\Users\pivov\WebstormProjects\EvereCode_Tasks\event-loop-scheduler> npm start
+## Возможности
 
-> event-loop-scheduler@1.0.0 start
-> node src/app.js
+- Управление списком валют (CRUD) с авторизацией по Bearer-токену.
+- Фоновое обновление курсов с Binance каждую минуту и сохранение в SQLite.
+- Получение текущих курсов и истории изменений по валюте.
+- Дополнительно: баланс BTC-адресов и высота блока сети (Blockstream).
 
->[2026-05-18T19:23:07.129Z] [INFO] [Event Loop App] application started
->[2026-05-18T19:23:07.134Z] [INFO] [Event Loop App] task "status-task" registered with interval 10000 ms
+## Запуск
 
+```
+npm install
+npm run dev
+```
 
-Tests
+## Пример вывода
 
-PS C:\Users\pivov\WebstormProjects\EvereCode_Tasks\event-loop-scheduler> npm run test:watch
+Старт сервиса и работа планировщика:
 
-> event-loop-scheduler@1.0.0 test:watch
-> 
-> jest --watch
-> 
- >PASS  tests/scheduler.test.js
-> 
-  >scheduler
-> 
-   > √ throws InvalidTaskNameError when task name is empty (17 ms)
+```
+[INFO] application started
+[INFO] task "price-update" registered with interval 60000 ms
+[INFO] server started on port 3000
+[INFO] price update completed: 2 currencies, 807 prices
+```
 
->Test Suites: 1 passed, 1 total
->
->Tests:       1 passed, 1 total
->
->Snapshots:   0 total
->
->Time:        1.02 s
->
->Ran all test suites related to changed files.
+Запрос курсов валюты:
 
->Watch Usage
->
- > Press a to run all tests.
->
- > Press f to run only failed tests.
->
- > Press p to filter by a filename regex pattern.
->
- > Press t to filter by a test name regex pattern.
->
- > Press q to quit watch mode.
->
- > Press Enter to trigger a test run.
-
-
-
-Starting with module 2 I will create a new branch and individual readme file for each module
+```
+$ curl -H "Authorization: Bearer $TOKEN" "localhost:3000/price?currency=BTC"
+{"currency":"BTC","prices":[{"symbol":"BTCUSDT","price":"59776.01000000"}, ...]}
+```
